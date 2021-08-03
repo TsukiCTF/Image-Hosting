@@ -1,0 +1,17 @@
+nav
+  h4 Image Hosting 
+  ul 
+    if isAnonymous
+      li 
+        a(href='/') Upload 
+      li 
+        a(href='/login') Log In 
+      li 
+        a(href='/register') Register
+    else
+      li 
+        a(href='/') Upload 
+      li 
+        a(href='/profile') Profile 
+      li 
+        a(href='/auth/logout') Log Out

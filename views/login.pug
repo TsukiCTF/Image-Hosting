@@ -1,0 +1,18 @@
+extends layout
+block content
+  div(class='container mt-4')
+    div(class='card')
+      div(class='card-header') Login Form 
+      div(class='card-body')
+          form(action='/auth/login' method='POST')
+              div(class='form-group') 
+                  label(for='email') Email 
+                  input(type='text', class='form-control', id='email', name='email')
+              br
+              div(class='form-group') 
+                  label(for='password') Password 
+                  input(type='password', class='form-control', id='password', name='password')
+              br
+              button(type='submit', class='btn btn-primary') Log In
+              p
+                  =message

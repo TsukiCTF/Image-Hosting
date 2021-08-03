@@ -1,0 +1,31 @@
+extends layout
+block content
+  div(class='container mt-4')
+    div(class='card')
+      div(class='card-header') Register Form 
+      div(class='card-body')
+          if registerSuccess
+            form(action='/login', method='GET')
+                p #{message}
+                br
+                button(type='submit', class='btn btn-primary') Log in here
+          else
+            form(action='/auth/register', method='POST')
+                div(class='form-group') 
+                    label(for='name') Name 
+                    input(type='text', class='form-control', id='name', name='name')
+                br
+                div(class='form-group') 
+                    label(for='email') Email 
+                    input(type='text', class='form-control', id='email', name='email')
+                br
+                div(class='form-group') 
+                    label(for='password') Password 
+                    input(type='password', class='form-control', id='password', name='password')
+                br
+                div(class='form-group') 
+                    label(for='passwordConfirm') Confirm Password 
+                    input(type='password', class='form-control', id='passwordConfirm', name='passwordConfirm')
+                br
+                button(type='submit', class='btn btn-primary') Register User
+                p #{message}

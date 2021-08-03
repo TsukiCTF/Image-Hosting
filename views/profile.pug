@@ -1,0 +1,26 @@
+extends layout
+block content
+  div(class='container mt-4')
+    div(class='row')
+      div(class='col-4')
+        div(class='card')
+          div(class='avatar-ctn')
+            img(src='/images/default_user_avatar.png', class='avatar', alt='user profile picture')
+          div(class='card-body')
+            h5(class='cart-title') #{name}
+            p(class='card-text') #{userType}
+            <!--a(href='#', class='btn btn-primary') Verify #{email}-->
+      div(class='col-8')
+        div(class='card text-center')
+          div(class='card-header') MY POSTS
+          div(class='card-body')
+            if numPosts > 0
+              div(class='image-grid')
+              each f in filePaths
+                img(class='image-cell', src=f alt='cannot display image')
+                <!--a(href='/delete', class='btn btn-primary') delete-->
+            else
+              h5(class='card-title') You Have No Posts Yet :(
+              br
+              a(href='/', class='btn btn-primary') Click here to upload
+          div(class='card-footer text-muted') Total Posts : #{numPosts}

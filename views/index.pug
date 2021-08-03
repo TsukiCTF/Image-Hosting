@@ -1,0 +1,11 @@
+extends layout
+block content
+  div(class='container mt-4')
+    div(class='jumbotron')
+      h1(class='display-4') Upload a new image 
+      p(class='lead') Post your images for free!
+      hr(class='my-4') 
+      
+      form(method='post' enctype='multipart/form-data' action='/upload') 
+        input(type='file' name='file')
+        input(type='submit' name='Submit')
