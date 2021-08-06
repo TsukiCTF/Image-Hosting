@@ -3,9 +3,11 @@ block content
   div(class='container mt-4')
     div(class='jumbotron')
       h1(class='display-4') Upload a new image 
-      p(class='lead') Post your images for free!
+      if isAnonymous
+        p Create an account for free to access exclusive features such as a personal photo gallery!
+      p(class='lead') (file size limit: 10MB)
       hr(class='my-4') 
-      
+
       form(method='post' enctype='multipart/form-data' action='/upload') 
         input(type='file' name='file')
         input(type='submit' name='Submit')

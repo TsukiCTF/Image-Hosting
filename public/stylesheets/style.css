@@ -29,7 +29,7 @@ nav li a:hover {
 }
 
 .avatar-ctn {
-    background-color: orange;
+    background-color: white;
     text-align: center;
 }
 
@@ -39,9 +39,15 @@ nav li a:hover {
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+.image-container > img:hover {
+    width: 80%;
+    height: 80%;
+}
+
 .single-image {
     width: 51%;
     height: 51%;
+    border: 1px solid black;
 }
 
 .image-grid {
@@ -51,10 +57,16 @@ nav li a:hover {
 }
 
 .image-cell {
-    min-width: 51%;
-    min-height: 51%;
-    max-width: 50%;
-    max-height: 50%;
-    margin-bottom: 5%;
-    background-color: #999;
+    width: 50%;
+    height: 50%;
+    margin-bottom: 2%;
+    border: 1px solid black;
+}
+
+.btn.btn-primary.btn-delete {
+    border-color: #CD80E3;
+    background-color: #CD80E3;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-bottom: 8%;
 }

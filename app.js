@@ -5,12 +5,13 @@ const express = require('express');
 const compression = require('compression');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-
-// create global app object
-const app = express();
+const favicon = require('serve-favicon');
 
 // set environment variables
 dotenv.config({ path: '.env' });
+
+// create global app object
+const app = express();
 
 // set template engine to pug
 app.set('views', './views');
@@ -21,6 +22,9 @@ app.use(compression());
 
 // set static file directory to root
 app.use(express.static(path.join(__dirname, '/public')));
+
+// serve favicon
+app.use(favicon(path.join(__dirname, '/public', '/images', 'favicon.ico')));
 
 // parse URL-encoded bodies & JSON bodies
 app.use(express.urlencoded({ extended: false }));

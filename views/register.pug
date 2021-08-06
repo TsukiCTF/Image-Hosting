@@ -10,6 +10,7 @@ block content
                 br
                 button(type='submit', class='btn btn-primary') Log in here
           else
+            p ⓘ Email verification is <i><u>not</u></i> needed.
             form(action='/auth/register', method='POST')
                 div(class='form-group') 
                     label(for='name') Name 

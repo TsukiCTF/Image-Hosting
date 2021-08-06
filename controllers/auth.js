@@ -5,7 +5,8 @@ const pool = require('./pool');
 
 exports.login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { password } = req.body;
+        const email = req.body.email.toLowerCase();
         // do not accept empty fields
         if ( !email || !password ) {
             return res.status(400).render('login', {
@@ -21,22 +22,19 @@ exports.login = async (req, res) => {
                     message: 'Email or password is incorrect.'
                 });
             }
-            else {
-                const id = results[0].id;
-                const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-                    expiresIn: process.env.JWT_EXPIRES_IN
-                });
-
-                const cookieOptions = {
-                    expires: new Date(
-                        Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000   // convert to milliseconds
-                    ),
-                    httpOnly: true  // disallow scripts to access cookie
-                }
-
-                res.cookie('jwt', token, cookieOptions);
-                res.status(200).redirect('/profile');
+            
+            const id = results[0].id;
+            const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+                expiresIn: process.env.JWT_EXPIRES_IN
+            });
+            const cookieOptions = {
+                expires: new Date(
+                    Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000   // convert to milliseconds
+                ),
+                httpOnly: true  // disallow scripts to access cookie
             }
+            res.cookie('jwt', token, cookieOptions);
+            res.status(200).redirect('/profile');
         });
     } catch (err) {
         console.log(err);
@@ -69,55 +67,46 @@ exports.isLoggedIn = async (req, res, next) => {
     }
 }
 
-exports.register = (req, res) => {
-    const { name, email, password, passwordConfirm } = req.body;
+// helper function to validate registration input fields
+const validateRegisterInput = (name, email, password, passwordConfirm, results) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;    // regex for email
+    // empty field(s)
+    if ( !name || !email || !password )
+        return 'You must fill all required fields.';
+    // email is invalid
+    else if (!re.test(email))
+        return 'You must submit a valid email address.';
+    // weak password
+    else if (password.length < 6)
+        return 'Please choose a password of at least 6 characters in length.';
+    // two passwords do not match
+    else if (password !== passwordConfirm)
+        return 'Your passwords do not match.';
+    // email already exists
+    else if (results.length > 0)
+        return 'User already exists with the email.';
+    else
+        return null;
+} 
+
+exports.register = (req, res) => {
+    const { name, password, passwordConfirm } = req.body;
+    const email = req.body.email.toLowerCase();
 
     pool.query('SELECT email FROM Users WHERE email = ?', [email], async (err, results) => {
         if (err)
             console.log(err);
-        // empty field(s)
-        if ( !name || !email || !password ) {
+
+        const message = validateRegisterInput(name, email, password, passwordConfirm, results);
+        if (message) {
             return res.render('register', {
                 isAnonymous: true,
                 registerSuccess: false,
-                message: 'You must fill all required fields.' 
-            });
-        }
-        // email is invalid
-        else if (!re.test(email)) {
-            return res.render('register', {
-                isAnonymous: true,
-                registerSuccess: false,
-                message: 'You must submit a valid email address.' 
-            });
-        }
-        // weak password
-        else if (password.length < 6) {
-            return res.render('register', {
-                isAnonymous: true,
-                registerSuccess: false,
-                message: 'Please choose a password of at least 6 characters in length.' 
-            });
-        }
-        // two passwords do not match
-        else if (password !== passwordConfirm) {
-            return res.render('register', {
-                isAnonymous: true,
-                registerSuccess: false,
-                message: 'Your passwords do not match.' 
-            });
-        }
-        // email already exists
-        else if (results.length > 0) {
-            return res.render('register', {
-                isAnonymous: true,
-                registerSuccess: false,
-                message: 'User already exists with the email.'
+                message 
             });
         }
 
-        let hashedPassword = await bcrypt.hash(password, 8);
+        const hashedPassword = await bcrypt.hash(password, 8);
 
         pool.query('INSERT INTO Users SET ?', { name: name, email: email, password: hashedPassword }, (err, results) => {
             if (err)

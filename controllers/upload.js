@@ -5,10 +5,9 @@ exports.saveFileInfo = async (fileName, email) => {
         if (err)
             console.log(err);
         else
-            console.log(`[+] "Image ${fileName}" uploaded by "${email}"`);
+            console.log(`[+] Image "${fileName}" uploaded by "${email}"`);
     });
 }
-
 
 exports.getFilesUploadedBy = async (req, res, next) => {
     if (req.user) {
@@ -21,4 +20,13 @@ exports.getFilesUploadedBy = async (req, res, next) => {
     } else {
         next();
     }
+}
+
+exports.deleteFileEntry = async fileName => {
+    pool.query('DELETE FROM Images WHERE file_name = ?;', [fileName], async (err, results) => {
+        if (err)
+            console.log(err);
+        else
+            console.log(`[-] Image "${fileName}" deleted`);
+    });
 }
