@@ -6,6 +6,7 @@
 - User registration, login, logout system
 - View personal photo gallery for registered users
 - Ability to delete images for registered users
+- View images uploaded for registered users
 
 ## Install
 First, clone this repository to your machine:
@@ -14,7 +15,7 @@ git clone https://github.com/TsukiCTF/Image-Hosting.git
 cd Image-Hosting
 ```
 Install Node.js dependencies:
-```
+```bash
 npm install 
 ```
 Then, set up a MySQL server running on port 3306 with following database and tables:
