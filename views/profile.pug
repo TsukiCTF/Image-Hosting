@@ -9,7 +9,6 @@ block content
           div(class='card-body')
             h5(class='cart-title') #{name}
             p(class='card-text') #{userType}
-            <!--a(href='#', class='btn btn-primary') Verify #{email}-->
       div(class='col-8')
         div(class='card text-center')
           div(class='card-header') MY POSTS
@@ -22,7 +21,7 @@ block content
                 img(class='image-cell', src=`/uploads/${e.file_name}` alt='cannot display image')
                 a(href=`/delete/${e.file_name}`, class='btn btn-primary btn-delete' id='deleteButton') delete
             else
-              h5(class='card-title') You Have No Posts Yet :(
+              h5(class='card-title') You have no posts yet :(
               br
               a(href='/', class='btn btn-primary') Click here to upload
           div(class='card-footer text-muted') Total Posts : #{numPosts}

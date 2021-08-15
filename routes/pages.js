@@ -123,7 +123,7 @@ router.get('/delete/:fileName', [authController.isLoggedIn, uploadController.get
     let isOwner = false;
     req.user.fileNames.forEach(e => {
         if (e.file_name === fileName)
-        isOwner = true;
+            isOwner = true;
     });
 
     if (isOwner) {

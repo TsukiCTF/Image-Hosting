@@ -4,9 +4,8 @@
 ## Main Features
 - Anonymous image upload
 - User registration, login, logout system
-- View personal photo gallery for registered users
+- View personal profile page with photo gallery for registered users
 - Ability to delete images for registered users
-- View images uploaded for registered users
 
 ## Install
 First, clone this repository to your machine:
@@ -44,10 +43,12 @@ Change .env file depending on your configuration:
 DB_NAME = Image_hosting
 DB_HOST = localhost
 DB_USER = nodejs
-DB_PASS = YOUR_DATABASE_PASSWORD
+DB_PASS = YOUR_DB_PASSWORD
 JWT_SECRET = YOUR_JWT_SECRET
 JWT_EXPIRES_IN = 7d
 JWT_COOKIE_EXPIRES = 7
+NODE_ENV = production
+PORT = 3000
 ```
 Finally, run the web server!
 ```
