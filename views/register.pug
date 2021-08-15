@@ -6,11 +6,11 @@ block content
       div(class='card-body')
           if registerSuccess
             form(action='/login', method='GET')
-                p #{message}
-                br
+                p
+                    =message
                 button(type='submit', class='btn btn-primary') Log in here
           else
-            p ⓘ Email verification is <i><u>not</u></i> needed.
+            p ▪️ Email verification is <i><u>not</u></i> needed.
             form(action='/auth/register', method='POST')
                 div(class='form-group') 
                     label(for='name') Name 
@@ -29,4 +29,6 @@ block content
                     input(type='password', class='form-control', id='passwordConfirm', name='passwordConfirm')
                 br
                 button(type='submit', class='btn btn-primary') Register User
-                p #{message}
+                input(type='hidden' name='_csrf' value=csrfToken)
+                p(class='form-error-message')
+                    =message

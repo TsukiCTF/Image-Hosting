@@ -8,6 +8,6 @@ block content
       p(class='lead') (file size limit: 10MB)
       hr(class='my-4') 
 
-      form(method='post' enctype='multipart/form-data' action='/upload') 
+      form(method='post' enctype='multipart/form-data' action=`/upload?_csrf=${csrfToken}`) 
         input(type='file' name='file')
         input(type='submit' name='Submit')

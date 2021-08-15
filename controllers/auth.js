@@ -11,7 +11,8 @@ exports.login = async (req, res) => {
         if ( !email || !password ) {
             return res.status(400).render('login', {
                 isAnonymous: true,
-                message: 'Please fill in both email and password.'
+                message: 'Please fill in both email and password.',
+                csrfToken: req.csrfToken()
             })
         }
 
@@ -19,7 +20,8 @@ exports.login = async (req, res) => {
             if ( !results[0] || !(await bcrypt.compare(password, results[0].password)) ) {
                 return res.status(401).render('login', {
                     isAnonymous: true,
-                    message: 'Email or password is incorrect.'
+                    message: 'Email or password is incorrect.',
+                    csrfToken: req.csrfToken()
                 });
             }
             
@@ -89,9 +91,10 @@ const validateRegisterInput = (name, email, password, passwordConfirm, results) 
         return null;
 } 
 
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
     const { name, password, passwordConfirm } = req.body;
     const email = req.body.email.toLowerCase();
+    const hashedPassword = await bcrypt.hash(password, 8);
 
     pool.query('SELECT email FROM Users WHERE email = ?', [email], async (err, results) => {
         if (err)
@@ -102,11 +105,10 @@ exports.register = (req, res) => {
             return res.render('register', {
                 isAnonymous: true,
                 registerSuccess: false,
-                message 
+                message,
+                csrfToken: req.csrfToken()
             });
         }
-
-        const hashedPassword = await bcrypt.hash(password, 8);
 
         pool.query('INSERT INTO Users SET ?', { name: name, email: email, password: hashedPassword }, (err, results) => {
             if (err)
@@ -115,7 +117,8 @@ exports.register = (req, res) => {
                 return res.render('register', {
                     isAnonymous: true,
                     registerSuccess: true,
-                    message: 'User successfully registered.'
+                    message: 'User successfully registered.',
+                    csrfToken: req.csrfToken()
                 });
             }
         });

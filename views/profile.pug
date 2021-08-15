@@ -19,7 +19,9 @@ block content
               div(class='image-grid')
               each e in fileNames
                 img(class='image-cell', src=`/uploads/${e.file_name}` alt='cannot display image')
-                a(href=`/delete/${e.file_name}`, class='btn btn-primary btn-delete' id='deleteButton') delete
+                form(action=`/delete/${e.file_name}` method='POST')
+                  button(type='submit', class='btn btn-primary btn-delete') delete
+                  input(type='hidden' name='_csrf' value=csrfToken)
             else
               h5(class='card-title') You have no posts yet :(
               br

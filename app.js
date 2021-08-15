@@ -6,6 +6,7 @@ const compression = require('compression');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const favicon = require('serve-favicon');
+const csurf = require('csurf');
 
 // set environment variables
 dotenv.config({ path: '.env' });
@@ -17,19 +18,18 @@ const app = express();
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-// enable gzip compression
-app.use(compression());
-
 // set static file directory to root
 app.use(express.static(path.join(__dirname, '/public')));
 
 // serve favicon
 app.use(favicon(path.join(__dirname, '/public', '/images', 'favicon.ico')));
 
-// parse URL-encoded bodies & JSON bodies
+// add middlewares
+app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(csurf({ cookie: true}));
 
 // define routes
 app.use('/', require('./routes/pages'));

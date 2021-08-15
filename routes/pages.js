@@ -6,7 +6,14 @@ const express = require('express');
 const { nanoid } = require('nanoid');
 const authController = require('../controllers/auth');
 const uploadController = require('../controllers/upload');
-const { serverFQDN, handleError, upload, confirmFileExists, acceptedImageExt } = require('./helpers/pagesUtil');
+const {
+    serverFQDN,
+    handleError,
+    upload,
+    confirmFileExists,
+    acceptedImageExt
+} = require('./helpers/pagesUtil');
+
 
 const router = express.Router();
 
@@ -14,7 +21,8 @@ const router = express.Router();
 router.get('/', authController.isLoggedIn, (req, res) => {
     const isAnonymous = req.user ? false : true;
     res.render('index', {
-        isAnonymous
+        isAnonymous,
+        csrfToken: req.csrfToken()
     });
 });
 
@@ -23,7 +31,8 @@ router.get('/register', authController.isLoggedIn, (req, res) => {
         res.redirect('/profile');
     else
         res.render('register', {
-            isAnonymous: true
+            isAnonymous: true,
+            csrfToken: req.csrfToken()
         })
 });
 
@@ -32,11 +41,12 @@ router.get('/login', authController.isLoggedIn, (req, res) => {
         res.redirect('/profile');
     else
         res.render('login', {
-            isAnonymous: true
+            isAnonymous: true,
+            csrfToken: req.csrfToken()
         });
 });
 
-router.get('/profile', [authController.isLoggedIn, uploadController.getFilesUploadedBy], (req, res) => {
+router.get('/profile', [ authController.isLoggedIn, uploadController.getFilesUploadedBy ], (req, res) => {
     if (req.user) {
         res.render('profile', {
             isAnonymous: false,
@@ -44,7 +54,8 @@ router.get('/profile', [authController.isLoggedIn, uploadController.getFilesUplo
             fileNames: req.user.fileNames,
             name: req.user.name,
             email: req.user.email,
-            userType: 'Member'
+            userType: 'Member',
+            csrfToken: req.csrfToken()
         });
     }
     else {
@@ -53,7 +64,7 @@ router.get('/profile', [authController.isLoggedIn, uploadController.getFilesUplo
 });
 
 // UPLOAD RELATED ROUTERS:
-router.post('/upload', [ authController.isLoggedIn, upload, confirmFileExists ], (req, res, next) => {
+router.post('/upload', [ authController.isLoggedIn, upload, confirmFileExists ], (req, res) => {
     const tempPath = req.file.path;
     const fileExt = path.extname(req.file.originalname).toLowerCase();
 
@@ -113,7 +124,7 @@ router.get('/fail/:message', authController.isLoggedIn, (req, res) => {
     });
 });
 
-router.get('/delete/:fileName', [authController.isLoggedIn, uploadController.getFilesUploadedBy], (req, res) => {
+router.post('/delete/:fileName', [ authController.isLoggedIn, uploadController.getFilesUploadedBy ], (req, res) => {
     const fileName = req.params.fileName;
     // ignore unauthenticated requests
     if (!req.user)

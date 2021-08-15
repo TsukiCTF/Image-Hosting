@@ -1,7 +1,9 @@
+/* global */
 * {
     box-sizing: border-box;
 }
 
+/* header */
 nav {
     background-color: #563d7c;
     color: #fff;
@@ -37,10 +39,31 @@ nav li a:hover {
     text-decoration: none;
 }
 
+/* upload success page */
 .link-to-image {
     overflow-wrap: break-word;
 }
 
+.uploaded-image {
+    width: 51%;
+    height: 51%;
+    border: 1px solid black;
+    transition: width 0.5s, height 0.5s;
+}
+
+.uploaded-image:hover {
+    width: 80%;
+    height: 80%;
+}
+
+
+/* login & register page */
+.form-error-message {
+    padding-top: 1%;
+    margin-bottom: -0.5%;
+}
+
+/* profile page */
 .avatar-ctn {
     background-color: white;
     text-align: center;
@@ -49,18 +72,6 @@ nav li a:hover {
 .avatar {
     width: 60%;
     padding: 2%;
-}
-
-.image-container > img:hover {
-    width: 80%;
-    height: 80%;
-    transition: width 0.5s, height 0.5s;
-}
-
-.single-image {
-    width: 51%;
-    height: 51%;
-    border: 1px solid black;
 }
 
 .image-grid {
@@ -80,7 +91,7 @@ nav li a:hover {
     background-color: #CD80E3;
     margin-left: 40%;
     margin-right: 40%;
-    margin-bottom: 4%;
+    margin-bottom: 3%;
     margin-top: 2%;
 }
 
@@ -107,13 +118,13 @@ nav li a:hover {
         font-size: 0.9rem;
     }
 
-    .single-image {
+    .uploaded-image {
         display: block;
         width: 80%;
         margin: auto;
     }
 
-    .image-container > img:hover {
+    .uploaded-image:hover {
         width: 100%;
         height: 100%;
     }
@@ -147,7 +158,7 @@ nav li a:hover {
         font-size: 0.8rem;
     }
 
-    .single-image {
+    .uploaded-image {
         display: block;
         width: 95%;
         margin: auto;

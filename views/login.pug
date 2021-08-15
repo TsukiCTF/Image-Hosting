@@ -14,5 +14,6 @@ block content
                   input(type='password', class='form-control', id='password', name='password')
               br
               button(type='submit', class='btn btn-primary') Log In
-              p
+              input(type='hidden' name='_csrf' value=csrfToken)
+              p(class='form-error-message')
                   =message
