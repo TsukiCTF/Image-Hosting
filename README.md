@@ -50,6 +50,11 @@ JWT_COOKIE_EXPIRES = 7
 NODE_ENV = production
 PORT = 3000
 ```
+Modify below to your configuration (*you can generate reCAPTCHA v2 keys from [here][1]*):
+- FQDN variable in /routes/helpers/pagesUtil.js
+- Captcha secret in /controllers/auth.js
+- Captcha data-sitekey in /views/login.pug
+
 Finally, run the web server!
 ```
 node app.js
@@ -58,3 +63,6 @@ Go to http://localhost:3000/ and try to upload an image!
 
 ## Contributing
 All contributions are welcome!
+
+
+[1]: https://www.google.com/recaptcha/admin/create
