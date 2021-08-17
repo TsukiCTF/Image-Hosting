@@ -4,7 +4,7 @@ block content
     div(class='card')
       div(class='card-header') Login Form 
       div(class='card-body')
-          form(action='/auth/login' method='POST')
+          form(action='/auth/login' method='POST' onclick='includeCaptchaResponse()' id='loginForm')
               div(class='form-group') 
                   label(for='email') Email 
                   input(type='text', class='form-control', id='email', name='email')
@@ -13,7 +13,10 @@ block content
                   label(for='password') Password 
                   input(type='password', class='form-control', id='password', name='password')
               br
+              div(class="g-recaptcha", data-sitekey="YOUR_CAPTCHA_DATA_SITE_KEY")
               button(type='submit', class='btn btn-primary') Log In
               input(type='hidden' name='_csrf' value=csrfToken)
+              input(type='hidden' name='captcha' id="captchaInput")
               p(class='form-error-message')
                   =message
+      script(src='/javascripts/captcha.js')

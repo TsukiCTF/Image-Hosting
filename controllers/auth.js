@@ -2,8 +2,35 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
 const pool = require('./pool');
+const fetch = require('node-fetch');
+
+// helper function to verify captcha submitted
+const verifyCaptcha = async (captcha) => {
+    try {
+        const secret = 'YOUR_CAPTCHA_SECRET';   // change this to reCAPTCHA v2 secret
+        const captchaVerification = await fetch(
+            `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`, { method: "POST" }
+        )    
+        .then(_res => _res.json());
+        return captchaVerification.success;
+    }
+    catch (err) {
+        console.log(err);
+        return false;
+    }
+}
 
 exports.login = async (req, res) => {
+    // verify captcha
+    const captchaVerified = await verifyCaptcha(req.body.captcha);
+    if (captchaVerified !== true) {
+        return res.status(401).render('login', {
+            isAnonymous: true,
+            message: 'Wrong captcha!',
+            csrfToken: req.csrfToken()
+        });
+    }
+    
     try {
         const { password } = req.body;
         const email = req.body.email.toLowerCase();
@@ -89,7 +116,7 @@ const validateRegisterInput = (name, email, password, passwordConfirm, results) 
         return 'User already exists with the email.';
     else
         return null;
-} 
+}
 
 exports.register = async (req, res) => {
     const { name, password, passwordConfirm } = req.body;
@@ -99,7 +126,8 @@ exports.register = async (req, res) => {
     pool.query('SELECT email FROM Users WHERE email = ?', [email], async (err, results) => {
         if (err)
             console.log(err);
-
+        
+        // verify input fields
         const message = validateRegisterInput(name, email, password, passwordConfirm, results);
         if (message) {
             return res.render('register', {

@@ -1,6 +1,6 @@
 const multer = require('multer');
 
-const serverFQDN = 'http://10.0.0.171:3000' // change this to your FQDN
+const serverFQDN = 'http://localhost:3000' // change this to your FQDN
 
 const handleError = (err, res) => {
     res

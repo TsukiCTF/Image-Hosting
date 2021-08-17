@@ -63,6 +63,10 @@ nav li a:hover {
     margin-bottom: -0.5%;
 }
 
+.g-recaptcha {
+    margin-bottom: 1rem;
+}
+
 /* profile page */
 .avatar-ctn {
     background-color: white;
