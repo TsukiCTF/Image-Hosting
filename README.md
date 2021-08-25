@@ -6,6 +6,7 @@
 - User registration, login, logout system
 - View personal profile page with photo gallery for registered users
 - Ability to delete images for registered users
+- Security measures such as Captcha and anti-CSRF token
 
 ## Install
 First, clone this repository to your machine:
