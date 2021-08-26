@@ -8,6 +8,11 @@
 - Ability to delete images for registered users
 - Security measures such as Captcha and anti-CSRF token
 
+## System Architecture
+Current system architecture of fully deployed version of this project is depicted as below.
+
+![image](https://user-images.githubusercontent.com/32463233/130900465-b1dd185b-e1e7-4216-b876-3e327a3a09ce.png)
+
 ## Install
 First, clone this repository to your machine:
 ```bash
