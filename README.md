@@ -9,7 +9,7 @@
 - Security measures such as Captcha and anti-CSRF token
 
 ## System Architecture
-Current system architecture of fully deployed version of this project is depicted as below.
+Current system architecture of **fully deployed** version of this project is depicted as below (created with [draw.io][2])
 
 ![image](https://user-images.githubusercontent.com/32463233/130900465-b1dd185b-e1e7-4216-b876-3e327a3a09ce.png)
 
@@ -72,3 +72,4 @@ All contributions are welcome!
 
 
 [1]: https://www.google.com/recaptcha/admin/create
+[2]: https://app.diagrams.net/
