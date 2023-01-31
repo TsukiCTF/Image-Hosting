@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
     if (captchaVerified !== true) {
         return res.status(401).render('login', {
             isAnonymous: true,
-            message: 'Wrong captcha!',
+            message: 'Wrong Captcha!',
             csrfToken: req.csrfToken()
         });
     }
