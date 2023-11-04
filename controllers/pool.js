@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const { promisify } = require('util');
 
 const pool = mysql.createPool({
@@ -10,8 +10,10 @@ const pool = mysql.createPool({
 });
 
 pool.getConnection((err, connection) => {
-    if (err)
-        console.log('Error when connecting to database');
+    if (err) {
+        console.log('Error when connecting to database:');
+        console.log(err)
+    }
     if (connection)
         connection.release();
 });
