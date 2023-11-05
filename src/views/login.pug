@@ -13,7 +13,7 @@ block content
                   label(for='password') Password 
                   input(type='password', class='form-control', id='password', name='password')
               br
-              div(class="g-recaptcha", data-sitekey="YOUR_CAPTCHA_DATA_SITE_KEY")
+              div(class="g-recaptcha", data-sitekey=captchaSitekey)
               button(type='submit', class='btn btn-primary') Log In
               input(type='hidden' name='_csrf' value=csrfToken)
               input(type='hidden' name='captcha' id="captchaInput")

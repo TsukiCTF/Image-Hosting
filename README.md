@@ -1,5 +1,5 @@
 # Image-Hosting
-*Full-stack project for image hosting web server! It runs on Node.js and uses Express.js framework along with a seperate MySQL server for storing, serving and controlling images. Pug template engine is used for serving web pages to the browser.*
+Full-stack project for an image hosting web server! It runs on Node.js and uses the Express.js framework, along with a separate MySQL server for storing, serving, and managing images. The Pug template engine is used to serve web pages to the browser. It now supports docker-compose.
 
 ## Main Features
 - Anonymous image upload
@@ -23,11 +23,33 @@ Install Node.js dependencies:
 ```bash
 npm install 
 ```
-Then, set up a MySQL server running on port 3306 with following database and tables:
-```SQL
-CREATE DATABASE Image_hosting;
-Use Image_hosting;
+Change `.env` file for docker-compose:
+```
+# MySQL config
+DB_HOST = mysql
+DB_ROOT_PASS = <CHOOSE YOUR MYSQL ROOT PASSWORD>
+DB_NAME = <CHOOSE YOUR MYSQL DATABASE NAME>
+DB_USER = <CHOOSE YOUR MYSQL USER NAME>
+DB_PASS = <CHOOSE YOUR MYSQL USER PASSWORD>
 
+# App config
+NODE_ENV = production
+NODE_PORT = 3000
+SERVER_URL = <CHOOSE YOUR SERVER URL>
+CAPTCHA_SECRET = <PASTE YOUR CAPTCHA SECRET>
+CAPTCHA_SITEKEY = <PASTE YOUR CAPTCHA SITEKEY>
+JWT_SECRET = <CHOSOE YOUR JWT SECRET>
+JWT_EXPIRES_IN = 7d
+JWT_COOKIE_EXPIRES = 7
+
+```
+
+Start docker-compose:
+```
+docker-compose up -d --force-recreate
+```
+Access `mysql` container's shell and add the following tables in your database:
+```SQL
 CREATE TABLE Users (
         id INT AUTO_INCREMENT,
         email VARCHAR(100),
@@ -44,28 +66,8 @@ CREATE TABLE Images (
         FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 ```
-Change .env file depending on your configuration:
-```
-DB_NAME = Image_hosting
-DB_HOST = localhost
-DB_USER = nodejs
-DB_PASS = YOUR_DB_PASSWORD
-JWT_SECRET = YOUR_JWT_SECRET
-JWT_EXPIRES_IN = 7d
-JWT_COOKIE_EXPIRES = 7
-NODE_ENV = production
-PORT = 3000
-```
-Modify below to your configuration (*you can generate reCAPTCHA v2 keys from [here][1]*):
-- FQDN variable in /routes/helpers/pagesUtil.js
-- Captcha secret in /controllers/auth.js
-- Captcha data-sitekey in /views/login.pug
 
-Finally, run the web server!
-```
-node app.js
-```
-Go to http://localhost:3000/ and try to upload an image!
+Go visit the web page (e.g., http://localhost:3000) and try to upload an image!
 
 ## Contributing
 All contributions are welcome!
