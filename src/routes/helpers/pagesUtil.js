@@ -1,6 +1,6 @@
 const multer = require('multer');
 
-const serverFQDN = 'http://localhost:3000' // change this to your FQDN
+const serverUrl = process.env.SERVER_URL; // Ex: http://localhost:3000
 
 const handleError = (err, res) => {
     res
@@ -24,4 +24,4 @@ const confirmFileExists = (req, res, next) => {
 const acceptedImageExt = ['.jpg', '.png', '.gif' , '.webp', '.tiff', '.psd', '.raw', '.bmp', '.heif', '.indd', '.jpeg', '.svg', '.ai'];
 
 
-module.exports = { serverFQDN, handleError, upload, confirmFileExists, acceptedImageExt };
+module.exports = { serverUrl, handleError, upload, confirmFileExists, acceptedImageExt };

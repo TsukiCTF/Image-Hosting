@@ -3,13 +3,9 @@ const fs = require('fs');
 const pug = require("pug");
 const express = require('express');
 const compression = require('compression');
-const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const favicon = require('serve-favicon');
 const csurf = require('csurf');
-
-// set environment variables
-dotenv.config({ path: '.env' });
 
 // create global app object
 const app = express();
@@ -36,6 +32,6 @@ app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 
 // start server
-const server = app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.NODE_PORT || 3000, () => {
     console.log('Server listening on port ' + server.address().port);
 });

@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 // helper function to verify captcha submitted
 const verifyCaptcha = async (captcha) => {
     try {
-        const secret = 'YOUR_CAPTCHA_SECRET';   // change this to reCAPTCHA v2 secret
+        const secret = process.env.CAPTCHA_SECRET;
         const captchaVerification = await fetch(
             `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captcha}`, { method: "POST" }
         )    
@@ -27,7 +27,8 @@ exports.login = async (req, res) => {
         return res.status(401).render('login', {
             isAnonymous: true,
             message: 'Wrong Captcha!',
-            csrfToken: req.csrfToken()
+            csrfToken: req.csrfToken(),
+            captchaSitekey: process.env.CAPTCHA_SITEKEY
         });
     }
     
@@ -39,7 +40,8 @@ exports.login = async (req, res) => {
             return res.status(400).render('login', {
                 isAnonymous: true,
                 message: 'Please fill in both email and password.',
-                csrfToken: req.csrfToken()
+                csrfToken: req.csrfToken(),
+                captchaSitekey: process.env.CAPTCHA_SITEKEY
             })
         }
 
@@ -48,7 +50,8 @@ exports.login = async (req, res) => {
                 return res.status(401).render('login', {
                     isAnonymous: true,
                     message: 'Email or password is incorrect.',
-                    csrfToken: req.csrfToken()
+                    csrfToken: req.csrfToken(),
+                    captchaSitekey: process.env.CAPTCHA_SITEKEY
                 });
             }
             

@@ -7,7 +7,7 @@ const { nanoid } = require('nanoid');
 const authController = require('../controllers/auth');
 const uploadController = require('../controllers/upload');
 const {
-    serverFQDN,
+    serverUrl,
     handleError,
     upload,
     confirmFileExists,
@@ -42,7 +42,8 @@ router.get('/login', authController.isLoggedIn, (req, res) => {
     else
         res.render('login', {
             isAnonymous: true,
-            csrfToken: req.csrfToken()
+            csrfToken: req.csrfToken(),
+            captchaSitekey: process.env.CAPTCHA_SITEKEY
         });
 });
 
@@ -105,7 +106,7 @@ router.get('/success/:fileName', authController.isLoggedIn, (req, res) => {
         isAnonymous,
         imgSrc: `/uploads/${fileName}`,
         imgAlt: `failed to view ${fileName}`,
-        imgSrcFQDN: `${serverFQDN}/uploads/${fileName}` 
+        imgSrcUrl: `${serverUrl}/uploads/${fileName}` 
     });
 });
 

@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  app:
+    image: node:20-slim
+    user: node
+    command: sh -c "cd src; node app.js"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./src:/app/src
+      - ./node_modules:/app/node_modules
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    networks:
+      - internal_network
+    environment:
+      # MySQL config
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      # App config
+      NODE_ENV: ${NODE_ENV}
+      NODE_PORT: ${NODE_PORT}
+      SERVER_URL: ${SERVER_URL}
+      CAPTCHA_SECRET: ${CAPTCHA_SECRET}
+      CAPTCHA_SITEKEY: ${CAPTCHA_SITEKEY}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      JWT_COOKIE_EXPIRES: ${JWT_COOKIE_EXPIRES}
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    user: mysql
+    volumes:
+      - imagehosting-mysql-data:/var/lib/mysql
+    networks:
+      - internal_network
+    environment: 
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 30
+
+volumes:
+  imagehosting-mysql-data:
+
+networks:
+  internal_network:
+    driver: bridge
