@@ -38,7 +38,8 @@ services:
     image: mysql:8.0
     user: mysql
     volumes:
-      - imagehosting-mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
     networks:
       - internal_network
     environment: 
@@ -52,7 +53,7 @@ services:
       retries: 30
 
 volumes:
-  imagehosting-mysql-data:
+  mysql-data:
 
 networks:
   internal_network:
